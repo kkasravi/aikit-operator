@@ -2,9 +2,9 @@
 apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
-  name: aikitoperators.operators.kubernetes.orchestrators.containers.intel.com
+  name: aikitoperators.aikit.intel
 spec:
-  group: operators.kubernetes.orchestrators.containers.intel.com
+  group: aikit.intel
   names:
     kind: AIKitOperator
     listKind: AIKitOperatorList

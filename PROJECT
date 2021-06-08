@@ -1,11 +1,16 @@
-domain: intel.com
-layout: helm.sdk.operatorframework.io/v1
-projectName: aikit-operator
-resources:
-- group: operators.kubernetes.orchestrators.containers
-  kind: AIKitOperator
-  version: v1alpha1
-version: 3-alpha
+domain: intel
+layout:
+- helm.sdk.operatorframework.io/v1
 plugins:
   manifests.sdk.operatorframework.io/v2: {}
   scorecard.sdk.operatorframework.io/v2: {}
+projectName: aikit-operator
+resources:
+- api:
+    crdVersion: v1
+    namespaced: true
+  domain: intel
+  group: aikit
+  kind: AIKitOperator
+  version: v1alpha1
+version: "3"

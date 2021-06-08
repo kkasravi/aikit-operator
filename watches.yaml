@@ -1,6 +1,6 @@
 # Use the 'create api' subcommand to add watches to this file.
-- group: operators.kubernetes.orchestrators.containers.intel.com
+- group: aikit.intel
   version: v1alpha1
   kind: AIKitOperator
   chart: helm-charts/aikitoperator
-# +kubebuilder:scaffold:watch
+#+kubebuilder:scaffold:watch

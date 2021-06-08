@@ -29,10 +29,10 @@ rules:
   - create
 
 ##
-## Rules for operators.kubernetes.orchestrators.containers.intel.com/v1alpha1, Kind: AIKitOperator
+## Rules for aikit.intel/v1alpha1, Kind: AIKitOperator
 ##
 - apiGroups:
-  - operators.kubernetes.orchestrators.containers.intel.com
+  - aikit.intel
   resources:
   - aikitoperators
   - aikitoperators/status
@@ -59,4 +59,4 @@ rules:
   resources:
   - "deployments"
 
-# +kubebuilder:scaffold:rules
+#+kubebuilder:scaffold:rules

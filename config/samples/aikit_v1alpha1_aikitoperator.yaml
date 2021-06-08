@@ -1,4 +1,4 @@
-apiVersion: operators.kubernetes.orchestrators.containers.intel.com/v1alpha1
+apiVersion: aikit.intel/v1alpha1
 kind: AIKitOperator
 metadata:
   name: aikitoperator-sample
@@ -13,7 +13,7 @@ spec:
   fullnameOverride: ""
   image:
     pullPolicy: IfNotPresent
-    repository: nginx
+    repository: quay.io
     tag: ""
   imagePullSecrets: []
   ingress:

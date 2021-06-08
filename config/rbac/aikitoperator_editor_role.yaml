@@ -5,7 +5,7 @@ metadata:
   name: aikitoperator-editor-role
 rules:
 - apiGroups:
-  - operators.kubernetes.orchestrators.containers.intel.com
+  - aikit.intel
   resources:
   - aikitoperators
   verbs:
@@ -17,7 +17,7 @@ rules:
   - update
   - watch
 - apiGroups:
-  - operators.kubernetes.orchestrators.containers.intel.com
+  - aikit.intel
   resources:
   - aikitoperators/status
   verbs:
