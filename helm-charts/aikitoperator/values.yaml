@@ -4,6 +4,12 @@
 
 replicaCount: 1
 
+imagestream:
+  name: s2i-aikit
+  version: v0.0.1
+  registry:
+    name: registry.connect.redhat.com/intel
+
 image:
   repository: quay.io
   pullPolicy: IfNotPresent
