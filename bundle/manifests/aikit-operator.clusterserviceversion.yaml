@@ -59,7 +59,7 @@ metadata:
     capabilities: Basic Install
     operators.operatorframework.io/builder: operator-sdk-v1.8.0+git
     operators.operatorframework.io/project_layout: helm.sdk.operatorframework.io/v1
-  name: aikit-operator.v0.0.1
+  name: aikit-operator.v1.0.1
   namespace: placeholder
 spec:
   apiservicedefinitions: {}
@@ -166,7 +166,7 @@ spec:
                 - --metrics-bind-address=127.0.0.1:8080
                 - --leader-elect
                 - --leader-election-id=aikit-operator
-                image: registry.connect.redhat.com/intel/aikit-operator:0.0.1
+                image: aikit-operator:1.0.1
                 livenessProbe:
                   httpGet:
                     path: /healthz
@@ -247,4 +247,4 @@ spec:
   maturity: alpha
   provider:
     name: Intel
-  version: 0.0.1
+  version: 1.0.1
