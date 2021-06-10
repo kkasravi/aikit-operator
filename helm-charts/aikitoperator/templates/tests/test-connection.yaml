@@ -1,17 +1,16 @@
-apiVersion: image.openshift.io/v1
-kind: ImageStream
+apiVersion: v1
+kind: Pod
 metadata:
-  labels:
-    opendatahub.io/notebook-image: "true"
-  name: {{ .Values.imagestream.name }}
+  name: "{{ .Values.imagestream.name }}-test"
+  annotations:
+    "helm.sh/hook": test
 spec:
-  lookupPolicy:
-    local: true
-  tags:
-    from:
-      kind: DockerImage
-      name: {{ .Values.imagestream.registry.name }}/{{ .Values.imagestream.name }}:{{ .Values.imagestream.version }}
-    importPolicy: {}
-    name: {{ .Values.imagestream.version }}
-    referencePolicy:
-      type: Source
+  containers:
+    - name: echo
+      image: rhel8/python-39:latest
+      command:
+      - /bin/bash
+      args:
+      - -c
+      - "echo hi"
+  restartPolicy: Never
