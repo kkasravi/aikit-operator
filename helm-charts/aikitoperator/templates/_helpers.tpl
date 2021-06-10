@@ -29,34 +29,3 @@ Create chart name and version as used by the chart label.
 {{- define "aikitoperator.chart" -}}
 {{- printf "%s-%s" .Chart.Name .Chart.Version | replace "+" "_" | trunc 63 | trimSuffix "-" }}
 {{- end }}
-
-{{/*
-Common labels
-*/}}
-{{- define "aikitoperator.labels" -}}
-helm.sh/chart: {{ include "aikitoperator.chart" . }}
-{{ include "aikitoperator.selectorLabels" . }}
-{{- if .Chart.AppVersion }}
-app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
-{{- end }}
-app.kubernetes.io/managed-by: {{ .Release.Service }}
-{{- end }}
-
-{{/*
-Selector labels
-*/}}
-{{- define "aikitoperator.selectorLabels" -}}
-app.kubernetes.io/name: {{ include "aikitoperator.name" . }}
-app.kubernetes.io/instance: {{ .Release.Name }}
-{{- end }}
-
-{{/*
-Create the name of the service account to use
-*/}}
-{{- define "aikitoperator.serviceAccountName" -}}
-{{- if .Values.serviceAccount.create }}
-{{- default (include "aikitoperator.fullname" .) .Values.serviceAccount.name }}
-{{- else }}
-{{- default "default" .Values.serviceAccount.name }}
-{{- end }}
-{{- end }}

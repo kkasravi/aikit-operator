@@ -10,7 +10,7 @@ spec:
   tags:
     from:
       kind: DockerImage
-      name: {{ .Values.imagestream.name }}/{{ .Values.imagestream.name }}:{{ .Values.imagestream.version }}
+      name: {{ .Values.imagestream.registry.name }}/{{ .Values.imagestream.name }}:{{ .Values.imagestream.version }}
     importPolicy: {}
     name: {{ .Values.imagestream.version }}
     referencePolicy:
