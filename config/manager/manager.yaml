@@ -28,6 +28,9 @@ spec:
       - args:
         - --leader-elect
         - --leader-election-id=aikit-operator
+        env:
+        - name: WATCH_NAMESPACE
+          value: kam
         image: controller:latest
         name: manager
         securityContext:
@@ -47,9 +50,9 @@ spec:
         resources:
           limits:
             cpu: 100m
-            memory: 90Mi
+            memory: 3000Mi
           requests:
             cpu: 100m
-            memory: 60Mi
+            memory: 2000Mi
       serviceAccountName: controller-manager
       terminationGracePeriodSeconds: 10
