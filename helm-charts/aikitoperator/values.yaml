@@ -7,7 +7,8 @@ fullnameOverride: ""
 
 imagestream:
   name: s2i-aikit
+  namespace: redhat-ods-applications
   version: v0.0.1
   registry:
-    name: registry.connect.redhat.com/intel
+    name: quay.io/kamkasravi
 

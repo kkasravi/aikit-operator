@@ -11,6 +11,7 @@
             "fullnameOverride": "",
             "imagestream": {
                 "name": "s2i-aikit",
+                "namespace": "s2i-aikit",
                 "version": "v0.0.1",
                 "registry": {
                     "name": "registry.connect.redhat.com/intel"
@@ -53,6 +54,7 @@
             "examples": [
                 {
                     "name": "s2i-aikit",
+                    "namespace": "s2i-aikit",
                     "version": "v0.0.1",
                     "registry": {
                         "name": "registry.connect.redhat.com/intel"
@@ -61,6 +63,7 @@
             ],
             "required": [
                 "name",
+                "namespace",
                 "version",
                 "registry"
             ],
@@ -69,6 +72,16 @@
                     "$id": "#/properties/imagestream/properties/name",
                     "type": "string",
                     "title": "The name schema",
+                    "description": "An explanation about the purpose of this instance.",
+                    "default": "",
+                    "examples": [
+                        "s2i-aikit"
+                    ]
+                },
+                "namespace": {
+                    "$id": "#/properties/imagestream/properties/namespace",
+                    "type": "string",
+                    "title": "The namespace schema",
                     "description": "An explanation about the purpose of this instance.",
                     "default": "",
                     "examples": [
