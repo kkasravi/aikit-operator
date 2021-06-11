@@ -11,48 +11,15 @@ metadata:
             "name": "aikitoperator-sample"
           },
           "spec": {
-            "affinity": {},
-            "autoscaling": {
-              "enabled": false,
-              "maxReplicas": 100,
-              "minReplicas": 1,
-              "targetCPUUtilizationPercentage": 80
-            },
             "fullnameOverride": "",
-            "image": {
-              "pullPolicy": "IfNotPresent",
-              "repository": "quay.io",
-              "tag": ""
+            "imagestream": {
+              "name": "s2i-aikit",
+              "registry": {
+                "name": "registry.connect.redhat.com/intel"
+              },
+              "version": "v0.0.1"
             },
-            "imagePullSecrets": [],
-            "ingress": {
-              "annotations": {},
-              "enabled": false,
-              "hosts": [
-                {
-                  "host": "chart-example.local",
-                  "paths": []
-                }
-              ],
-              "tls": []
-            },
-            "nameOverride": "",
-            "nodeSelector": {},
-            "podAnnotations": {},
-            "podSecurityContext": {},
-            "replicaCount": 1,
-            "resources": {},
-            "securityContext": {},
-            "service": {
-              "port": 80,
-              "type": "ClusterIP"
-            },
-            "serviceAccount": {
-              "annotations": {},
-              "create": true,
-              "name": ""
-            },
-            "tolerations": []
+            "nameOverride": ""
           }
         }
       ]
@@ -166,7 +133,7 @@ spec:
                 - --metrics-bind-address=127.0.0.1:8080
                 - --leader-elect
                 - --leader-election-id=aikit-operator
-                image: aikit-operator:1.0.1
+                image: quay.io/kamkasravi/aikitoperator:1.0.1
                 livenessProbe:
                   httpGet:
                     path: /healthz
