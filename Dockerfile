@@ -1,5 +1,5 @@
 # Build the manager binary
-FROM quay.io/operator-framework/helm-operator:v1.8.0
+FROM registry.redhat.io/openshift4/ose-helm-operator:v4.7
 
 ### Required OpenShift Labels
 LABEL name="Intel\u00ae AIKit Operator" \
