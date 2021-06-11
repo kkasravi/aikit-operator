@@ -76,8 +76,8 @@ uninstall: kustomize ## Uninstall CRDs from the K8s cluster specified in ~/.kube
 	$(KUSTOMIZE) build config/crd | kubectl delete -f -
 
 deploy: kustomize ## Deploy controller to the K8s cluster specified in ~/.kube/config.
-	cd config/manager && $(KUSTOMIZE) edit set image controller=${IMG}
-	$(KUSTOMIZE) build config/default 
+	@cd config/manager && $(KUSTOMIZE) edit set image controller=${IMG}
+	@$(KUSTOMIZE) build config/default 
 	@#$(KUSTOMIZE) build config/default | kubectl apply -f - --dry-run=client --validate
 
 undeploy: ## Undeploy controller from the K8s cluster specified in ~/.kube/config.
