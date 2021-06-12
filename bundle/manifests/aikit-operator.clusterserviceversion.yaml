@@ -8,7 +8,7 @@ metadata:
           "apiVersion": "aikit.intel/v1alpha1",
           "kind": "AIKitOperator",
           "metadata": {
-            "name": "aikitoperator-sample1",
+            "name": "aikitoperator-sample2",
             "namespace": "kam"
           },
           "spec": {
@@ -26,7 +26,7 @@ metadata:
     capabilities: Basic Install
     operators.operatorframework.io/builder: operator-sdk-v1.8.0+git
     operators.operatorframework.io/project_layout: helm.sdk.operatorframework.io/v1
-  name: aikit-operator.v1.0.3
+  name: aikit-operator.v1.0.4
   namespace: placeholder
 spec:
   apiservicedefinitions: {}
@@ -91,6 +91,12 @@ spec:
           verbs:
           - '*'
         - apiGroups:
+          - image.openshift.io
+          resources:
+          - imagestreams
+          verbs:
+          - '*'
+        - apiGroups:
           - authentication.k8s.io
           resources:
           - tokenreviews
@@ -125,7 +131,7 @@ spec:
                   valueFrom:
                     fieldRef:
                       fieldPath: metadata.annotations['olm.targetNamespaces']
-                image: quay.io/kamkasravi/aikit-operator:1.0.3
+                image: quay.io/kamkasravi/aikit-operator:1.0.4
                 livenessProbe:
                   httpGet:
                     path: /healthz
@@ -206,4 +212,4 @@ spec:
   maturity: alpha
   provider:
     name: Intel
-  version: 1.0.3
+  version: 1.0.4
