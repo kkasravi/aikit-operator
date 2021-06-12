@@ -13,9 +13,7 @@
                 "name": "s2i-aikit",
                 "namespace": "s2i-aikit",
                 "version": "v0.0.1",
-                "registry": {
-                    "name": "registry.connect.redhat.com/intel"
-                }
+                "registryname": "registry.connect.redhat.com/intel"
             }
         }
     ],
@@ -56,16 +54,14 @@
                     "name": "s2i-aikit",
                     "namespace": "s2i-aikit",
                     "version": "v0.0.1",
-                    "registry": {
-                        "name": "registry.connect.redhat.com/intel"
-                    }
+                    "registryname": "registry.connect.redhat.com/intel"
                 }
             ],
             "required": [
                 "name",
                 "namespace",
                 "version",
-                "registry"
+                "registryname"
             ],
             "properties": {
                 "name": {
@@ -98,33 +94,15 @@
                         "v0.0.1"
                     ]
                 },
-                "registry": {
-                    "$id": "#/properties/imagestream/properties/registry",
-                    "type": "object",
-                    "title": "The registry schema",
+                "registryname": {
+                    "$id": "#/properties/imagestream/properties/registryname",
+                    "type": "string",
+                    "title": "The registryname schema",
                     "description": "An explanation about the purpose of this instance.",
-                    "default": {},
+                    "default": "",
                     "examples": [
-                        {
-                            "name": "registry.connect.redhat.com/intel"
-                        }
-                    ],
-                    "required": [
-                        "name"
-                    ],
-                    "properties": {
-                        "name": {
-                            "$id": "#/properties/imagestream/properties/registry/properties/name",
-                            "type": "string",
-                            "title": "The name schema",
-                            "description": "An explanation about the purpose of this instance.",
-                            "default": "",
-                            "examples": [
-                                "registry.connect.redhat.com/intel"
-                            ]
-                        }
-                    },
-                    "additionalProperties": true
+                        "quay.io/foo"
+                    ]
                 }
             },
             "additionalProperties": true

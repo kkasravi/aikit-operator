@@ -16,9 +16,7 @@ metadata:
             "imagestream": {
               "name": "tensorflow-notebook",
               "namespace": "kam",
-              "registry": {
-                "name": "quay.io/kamkasravi"
-              },
+              "registryname": "quay.io/kamkasravi",
               "version": "v0.0.2"
             },
             "nameOverride": ""
@@ -120,8 +118,13 @@ spec:
             spec:
               containers:
               - args:
-                - --leader-elect
+                - --enable-leader-election
                 - --leader-election-id=aikit-operator
+                env:
+                - name: WATCH_NAMESPACE
+                  valueFrom:
+                    fieldRef:
+                      fieldPath: metadata.annotations['olm.targetNamespaces']
                 image: quay.io/kamkasravi/aikit-operator:1.0.1
                 livenessProbe:
                   httpGet:
@@ -139,10 +142,10 @@ spec:
                 resources:
                   limits:
                     cpu: 100m
-                    memory: 90Mi
+                    memory: 3000Mi
                   requests:
                     cpu: 100m
-                    memory: 60Mi
+                    memory: 2000Mi
                 securityContext:
                   allowPrivilegeEscalation: false
               securityContext:

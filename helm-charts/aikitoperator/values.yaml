@@ -9,6 +9,5 @@ imagestream:
   name: tensorflow-notebook
   namespace: kam
   version: v0.0.2
-  registry:
-    name: quay.io/kamkasravi
+  registryname: quay.io/kamkasravi
 
