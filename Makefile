@@ -1,3 +1,8 @@
+#
+# OC_PROJECT
+#
+OC_PROJECT ?= redhat-ods-applications
+
 # VERSION defines the project version for the bundle.
 # Update this value when you upgrade the version of your project.
 # To re-generate a bundle for another specific version without changing the standard setup, you can:
@@ -77,6 +82,7 @@ uninstall: kustomize ## Uninstall CRDs from the K8s cluster specified in ~/.kube
 
 deploy: kustomize ## Deploy controller to the K8s cluster specified in ~/.kube/config.
 	@cd config/manager && $(KUSTOMIZE) edit set image controller=${IMG}
+	@cd config/default && $(KUSTOMIZE) edit set namespace ${OC_PROJECT}
 	@$(KUSTOMIZE) build config/default 
 	@#$(KUSTOMIZE) build config/default | kubectl apply -f - --dry-run=client --validate
 
