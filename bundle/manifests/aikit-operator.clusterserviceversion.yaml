@@ -26,7 +26,7 @@ metadata:
     capabilities: Basic Install
     operators.operatorframework.io/builder: operator-sdk-v1.8.0+git
     operators.operatorframework.io/project_layout: helm.sdk.operatorframework.io/v1
-  name: aikit-operator.v1.0.2
+  name: aikit-operator.v1.0.3
   namespace: placeholder
 spec:
   apiservicedefinitions: {}
@@ -125,7 +125,7 @@ spec:
                   valueFrom:
                     fieldRef:
                       fieldPath: metadata.annotations['olm.targetNamespaces']
-                image: quay.io/kamkasravi/aikit-operator:1.0.2
+                image: quay.io/kamkasravi/aikit-operator:1.0.3
                 livenessProbe:
                   httpGet:
                     path: /healthz
@@ -206,4 +206,4 @@ spec:
   maturity: alpha
   provider:
     name: Intel
-  version: 1.0.2
+  version: 1.0.3

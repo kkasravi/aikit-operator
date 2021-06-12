@@ -1,7 +1,7 @@
 apiVersion: aikit.intel/v1alpha1
 kind: AIKitOperator
 metadata:
-  name: aikitoperator-sample1
+  name: aikitoperator-sample2
 spec:
   # Default values copied from <project_dir>/helm-charts/aikitoperator/values.yaml
   fullnameOverride: ""
