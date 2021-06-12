@@ -1,7 +1,7 @@
 apiVersion: aikit.intel/v1alpha1
 kind: AIKitOperator
 metadata:
-  name: aikitoperator-sample
+  name: aikitoperator-sample1
 spec:
   # Default values copied from <project_dir>/helm-charts/aikitoperator/values.yaml
   fullnameOverride: ""
@@ -11,6 +11,3 @@ spec:
     namespace: kam
     version: v0.0.2
     registryname: quay.io/kamkasravi
-
-  
-  
