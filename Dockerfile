@@ -10,6 +10,8 @@ LABEL name="Intel\u00ae AIKit Operator" \
       summary="AIKit Operator" \
       description="AIKit Operator."
 
+COPY licenses /licenses
+
 
 ENV HOME=/opt/helm
 COPY watches.yaml ${HOME}/watches.yaml
