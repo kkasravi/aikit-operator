@@ -11,4 +11,4 @@ kind: Kustomization
 images:
 - name: controller
   newName: quay.io/kamkasravi/aikit-operator
-  newTag: 1.0.6
+  newTag: 1.0.7

@@ -8,8 +8,8 @@ metadata:
           "apiVersion": "aikit.intel/v1alpha1",
           "kind": "AIKitOperator",
           "metadata": {
-            "name": "aikitoperator-imagestream",
-            "namespace": "kam"
+            "name": "aikitoperator-create-imagestream",
+            "namespace": "redhat-ods-applications"
           },
           "spec": {
             "fullnameOverride": "",
@@ -26,7 +26,7 @@ metadata:
     capabilities: Basic Install
     operators.operatorframework.io/builder: operator-sdk-v1.8.0+git
     operators.operatorframework.io/project_layout: helm.sdk.operatorframework.io/v1
-  name: aikit-operator.v1.0.6
+  name: aikit-operator.v1.0.7
   namespace: placeholder
 spec:
   apiservicedefinitions: {}
@@ -119,7 +119,7 @@ spec:
                   valueFrom:
                     fieldRef:
                       fieldPath: metadata.annotations['olm.targetNamespaces']
-                image: quay.io/kamkasravi/aikit-operator:1.0.6
+                image: quay.io/kamkasravi/aikit-operator:1.0.7
                 name: manager
                 resources:
                   limits:
@@ -189,4 +189,4 @@ spec:
   minKubeVersion: "1.16"
   provider:
     name: Intel
-  version: 1.0.6
+  version: 1.0.7
