@@ -1,13 +1,13 @@
 apiVersion: aikit.intel/v1alpha1
 kind: AIKitOperator
 metadata:
-  name: aikitoperator-sample2
+  name: aikitoperator-create-imagestream
 spec:
   # Default values copied from <project_dir>/helm-charts/aikitoperator/values.yaml
   fullnameOverride: ""
   nameOverride: ""
   imagestream:
-    name: tensorflow-notebook
-    namespace: kam
-    version: v0.0.2
+    name: aikit-s2i-minimal-notebook
+    namespace: redhat-ods-applications
+    version: v1.0.6
     registryname: quay.io/kamkasravi
