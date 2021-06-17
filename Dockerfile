@@ -13,13 +13,12 @@ LABEL name="Intel\u00ae AIKit Operator" \
 
 COPY licenses /licenses
 
+USER root
+RUN yum -y update-minimal --security --sec-severity=Important --sec-severity=Critical
+USER 1001
 
 ENV HOME=/opt/helm
 COPY watches.yaml ${HOME}/watches.yaml
 COPY helm-charts  ${HOME}/helm-charts
-
-USER root
-RUN yum -y update-minimal --security --sec-severity=Important --sec-severity=Critical
-USER 1001
 
 WORKDIR ${HOME}
