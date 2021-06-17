@@ -10,9 +10,6 @@ spec:
       - name: manager
         args:
         - "--config=controller_manager_config.yaml"
-        env:
-        - name: WATCH_NAMESPACE
-          value: kam
         volumeMounts:
         - name: manager-config
           mountPath: /controller_manager_config.yaml

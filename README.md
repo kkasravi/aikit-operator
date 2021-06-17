@@ -1,17 +1,22 @@
 # aikit-operator
 
+## env vars
+- OC_PROJECT
+- IMAGE_TAG_BASE
+- VERSION
+
 ## using the operator-sdk cli
 
 1. install <br/>
-   `operator-sdk run bundle -n <namespace> quay.io/kamkasravi/aikit-operator-bundle:2021.2`
+   `operator-sdk run bundle -n $OC_PROJECT ${IMAGE_TAG_BASE}-bundle:v$VERSION`
 1. cleanup <br/>
    `operator-sdk cleanup aikit-operator`
 
 
 ## manual steps
 1. create a catalog index <br/>
-   opm -u docker index add --bundles quay.io/kamkasravi/aikit-operator-bundle:2021.2 --tag quay.io/kamkasravi/aikit-operator-index:2021.2 <br/>
-   docker push quay.io/kamkasravi/aikit-operator-index:2021.2 <br/>
+   opm -u docker index add --bundles ${IMAGE_TAG_BASE}-bundle:v$VERSION --tag ${IMAGE_TAG_BASE}-index:v$VERSION <br/>
+   docker push ${IMAGE_TAG_BASE}-index:v$VERSION <br/>
 1. register the catalog index with cluster <br/>
 
 ```
