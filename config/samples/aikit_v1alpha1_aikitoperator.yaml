@@ -7,7 +7,7 @@ spec:
   fullnameOverride: ""
   nameOverride: ""
   imagestream:
-    name: aikit-s2i-minimal-notebook
+    name: oneapi-aikit
     namespace: redhat-ods-applications
-    version: v1.0.6
-    registryname: quay.io/kamkasravi
+    version: latest
+    registryname: registry.connect.redhat.com/intel
