@@ -13,7 +13,7 @@ LABEL operators.operatorframework.io.metrics.project_layout=helm.sdk.operatorfra
 #Add these labels
 LABEL com.redhat.openshift.versions="v4.7"
 LABEL com.redhat.delivery.operator.bundle=true
-LABEL com.redhat.delivery.backport=true
+LABEL com.redhat.delivery.backport=false
 
 # Labels for testing.
 LABEL operators.operatorframework.io.test.mediatype.v1=scorecard+v1
