@@ -10,22 +10,6 @@ namespace: kam
 # field above.
 namePrefix: aikit-operator-
 
-# Labels to add to all resources and selectors.
-#commonLabels:
-#  someName: someValue
-
-# [PROMETHEUS] To enable prometheus monitor, uncomment all sections with 'PROMETHEUS'.
-#- ../prometheus
-
-# Protect the /metrics endpoint by putting it behind auth.
-# If you want your controller-manager to expose the /metrics
-# endpoint w/o any authn/z, please comment the following line.
-
-# Mount the controller config file for loading manager configurations
-# through a ComponentConfig type
-#- manager_auth_proxy_patch.yaml
-#patchesStrategicMerge:
-#- manager_config_patch.yaml
 resources:
 - ../crd
 - ../rbac

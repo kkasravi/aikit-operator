@@ -8,7 +8,7 @@ OC_PROJECT ?= redhat-ods-applications
 # To re-generate a bundle for another specific version without changing the standard setup, you can:
 # - use the VERSION as arg of the bundle target (e.g make bundle VERSION=0.0.2)
 # - use environment variables to overwrite this value (e.g export VERSION=0.0.2)
-VERSION ?= 2021.2.0-10
+VERSION ?= 2021.2.0
 
 # CHANNELS define the bundle channels used in the bundle.
 # Add a new line here if you would like to change its default config. (E.g CHANNELS = "preview,fast,stable")
@@ -67,7 +67,7 @@ run: helm-operator ## Run against the configured Kubernetes cluster in ~/.kube/c
 	$(HELM_OPERATOR) run
 
 docker-build: ## Build docker image with the manager.
-	docker build -t ${IMG} .
+	docker build --no-cache -t ${IMG} .
 
 docker-push: ## Push docker image with the manager.
 	docker push ${IMG}
@@ -126,7 +126,7 @@ endif
 
 .PHONY: bundle
 bundle: kustomize ## Generate bundle manifests and metadata, then validate generated files.
-	operator-sdk generate kustomize manifests -q
+	operator-sdk generate kustomize manifests
 	cd config/manager && $(KUSTOMIZE) edit set image controller=$(IMG)
 	$(KUSTOMIZE) build config/manifests | operator-sdk generate bundle -q --overwrite --version $(VERSION) $(BUNDLE_METADATA_OPTS)
 	#operator-sdk bundle validate ./bundle
