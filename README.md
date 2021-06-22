@@ -1,9 +1,9 @@
 # aikit-operator
 
 ## env vars
-- OC_PROJECT
-- IMAGE_TAG_BASE
-- VERSION
+- OC_PROJECT=kam
+- IMAGE_TAG_BASE=registry.connect.redhat.com/intel
+- VERSION=2021.2.0
 
 ## using the operator-sdk cli
 
