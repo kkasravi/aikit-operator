@@ -26,33 +26,30 @@ spec:
         runAsNonRoot: true
       containers:
       - args:
-        - --enable-leader-election
+        - --leader-elect
         - --leader-election-id=aikit-operator
-        env:
-        - name: WATCH_NAMESPACE
-          value: kam
         image: controller:latest
         name: manager
         securityContext:
           allowPrivilegeEscalation: false
-#        livenessProbe:
-#          httpGet:
-#            path: /healthz
-#            port: 8081
-#          initialDelaySeconds: 15
-#          periodSeconds: 20
-#        readinessProbe:
-#          httpGet:
-#            path: /readyz
-#            port: 8081
-#          initialDelaySeconds: 5
-#          periodSeconds: 10
+        livenessProbe:
+          httpGet:
+            path: /healthz
+            port: 8081
+          initialDelaySeconds: 15
+          periodSeconds: 20
+        readinessProbe:
+          httpGet:
+            path: /readyz
+            port: 8081
+          initialDelaySeconds: 5
+          periodSeconds: 10
         resources:
           limits:
             cpu: 100m
-            memory: 3000Mi
+            memory: 90Mi
           requests:
             cpu: 100m
-            memory: 2000Mi
+            memory: 60Mi
       serviceAccountName: controller-manager
       terminationGracePeriodSeconds: 10

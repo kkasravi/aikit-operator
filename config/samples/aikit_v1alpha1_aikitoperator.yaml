@@ -1,13 +1,17 @@
 apiVersion: aikit.intel/v1alpha1
 kind: AIKitOperator
 metadata:
-  name: aikitoperator-create-imagestream
+  name: aikitoperator-sample
 spec:
   # Default values copied from <project_dir>/helm-charts/aikitoperator/values.yaml
   fullnameOverride: ""
   nameOverride: ""
   imagestream:
-    name: oneapi-aikit
+    name: s2i-aikit
     namespace: redhat-ods-applications
-    version: latest
-    registryname: registry.connect.redhat.com/intel
+    version: v0.0.1
+    registry:
+      name: quay.io/kamkasravi
+
+  
+  

@@ -59,14 +59,4 @@ rules:
   resources:
   - "deployments"
 
-##
-## Rules for image.openshift.io/v1, kind: ImageStream
-##
-- apiGroups:
-  - image.openshift.io
-  resources:
-  - imagestreams
-  verbs:
-  - "*"
-
 #+kubebuilder:scaffold:rules
