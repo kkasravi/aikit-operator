@@ -24,7 +24,7 @@ metadata:
         }
       ]
     capabilities: Basic Install
-    olm.targetNamespaces: redhat-ods-applications
+    olm.targetNamespaces: redhat-ods-applications,kam
     operators.operatorframework.io/builder: operator-sdk-v1.9.0
     operators.operatorframework.io/project_layout: helm.sdk.operatorframework.io/v1
   name: aikit-operator.v2021.2.0
