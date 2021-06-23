@@ -25,7 +25,7 @@ metadata:
       ]
     capabilities: Basic Install
     categories: "AI & machine learning"
-    containerImage: registry.redhat.io/intel/aikit-operator:201.2.0
+    containerImage: registry.redhat.io/intel/aikit-operator:2021.2.0
     olm.operatorNamespace: openshift-operators
     operators.operatorframework.io/builder: operator-sdk-v1.9.0
     operators.operatorframework.io/project_layout: helm.sdk.operatorframework.io/v1
@@ -38,11 +38,11 @@ spec:
     - kind: AIKitOperator
       name: aikitoperators.aikit.intel
       version: v1alpha1
-  description: |-
+  description: |
     The Intel® oneAPI AI Analytics Toolkit gives data scientists, AI developers, and researchers familiar Python* tools and frameworks to accelerate end-to-end data science and machine learning pipelines on Intel® architectures. The components are built using oneAPI libraries for low-level compute optimizations. This toolkit maximizes performance from preprocessing through machine and deep learning phases and provides interoperability for efficient model development and deployment across single and multinodes.
-
+    
     Using this toolkit, you can:
-
+    
     * Deliver high-performance deep learning (DL) training and inference on Intel® XPUs with Intel-optimized DL frameworks: TensorFlow* and PyTorch*, pretrained models, and Intel Low Precision Optimization Tool. 
 Achieve drop-in acceleration for data preprocessing and machine learning workflows with compute-intensive Python packages: Modin*, scikit-learn*, and XGBoost* optimized for Intel.
     * Gain direct access to Intel analytics and AI optimizations to ensure that your software works together seamlessly.
