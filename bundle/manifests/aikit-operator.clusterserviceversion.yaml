@@ -190,5 +190,4 @@ spec:
   provider:
     name: Intel
     url: https://software.intel.com/content/www/us/en/develop/tools/oneapi/application-catalog.html#gs.407z40
-  minKubeVersion: "1.17"
   version: 2021.2.0
