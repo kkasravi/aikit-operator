@@ -8,7 +8,7 @@ OC_PROJECT ?= redhat-ods-applications
 # To re-generate a bundle for another specific version without changing the standard setup, you can:
 # - use the VERSION as arg of the bundle target (e.g make bundle VERSION=0.0.2)
 # - use environment variables to overwrite this value (e.g export VERSION=0.0.2)
-VERSION ?= 2021.2.0
+VERSION ?= 2021.2.`git rev-parse --short HEAD | sed 's/[^0-9]*//g'`
 
 # CHANNELS define the bundle channels used in the bundle.
 # Add a new line here if you would like to change its default config. (E.g CHANNELS = "preview,fast,stable")
@@ -43,6 +43,9 @@ BUNDLE_IMG ?= $(IMAGE_TAG_BASE)-bundle:v$(VERSION)
 # Image URL to use all building/pushing image targets
 IMG ?= $(IMAGE_TAG_BASE):$(VERSION)
 
+version: # show version
+	@echo ${VERSION}
+	# TODO: write this version to version: bundle/manifests/aikit-operator.clusterserviceversion.yaml
 all: docker-build
 
 ##@ General

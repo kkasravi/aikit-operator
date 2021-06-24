@@ -190,4 +190,4 @@ spec:
   provider:
     name: Intel
     url: https://software.intel.com/content/www/us/en/develop/tools/oneapi/application-catalog.html#gs.407z40
-  version: 2021.2.0
+  version: 2021.2.0  # 2021.2.`git rev-parse --short HEAD | sed 's/[^0-9]*//g'`
