@@ -1,9 +1,14 @@
+#
+# OC_PROJECT
+#
+OC_PROJECT ?= redhat-ods-applications
+
 # VERSION defines the project version for the bundle.
 # Update this value when you upgrade the version of your project.
 # To re-generate a bundle for another specific version without changing the standard setup, you can:
 # - use the VERSION as arg of the bundle target (e.g make bundle VERSION=0.0.2)
 # - use environment variables to overwrite this value (e.g export VERSION=0.0.2)
-VERSION ?= 1.0.1
+VERSION ?= 2021.2.`git rev-parse --short HEAD | sed 's/[^0-9]*//g'`
 
 # CHANNELS define the bundle channels used in the bundle.
 # Add a new line here if you would like to change its default config. (E.g CHANNELS = "preview,fast,stable")
@@ -38,6 +43,9 @@ BUNDLE_IMG ?= $(IMAGE_TAG_BASE)-bundle:v$(VERSION)
 # Image URL to use all building/pushing image targets
 IMG ?= $(IMAGE_TAG_BASE):$(VERSION)
 
+version: # show version
+	@echo ${VERSION}
+	# TODO: write this version to version: bundle/manifests/aikit-operator.clusterserviceversion.yaml
 all: docker-build
 
 ##@ General
@@ -62,7 +70,7 @@ run: helm-operator ## Run against the configured Kubernetes cluster in ~/.kube/c
 	$(HELM_OPERATOR) run
 
 docker-build: ## Build docker image with the manager.
-	docker build -t ${IMG} .
+	docker build --no-cache -t ${IMG} .
 
 docker-push: ## Push docker image with the manager.
 	docker push ${IMG}
@@ -77,6 +85,7 @@ uninstall: kustomize ## Uninstall CRDs from the K8s cluster specified in ~/.kube
 
 deploy: kustomize ## Deploy controller to the K8s cluster specified in ~/.kube/config.
 	@cd config/manager && $(KUSTOMIZE) edit set image controller=${IMG}
+	@cd config/default && $(KUSTOMIZE) edit set namespace ${OC_PROJECT}
 	@$(KUSTOMIZE) build config/default 
 	@#$(KUSTOMIZE) build config/default | kubectl apply -f - --dry-run=client --validate
 
@@ -120,14 +129,17 @@ endif
 
 .PHONY: bundle
 bundle: kustomize ## Generate bundle manifests and metadata, then validate generated files.
-	operator-sdk generate kustomize manifests -q
+	@echo 'disabled' && exit 1
+	operator-sdk generate kustomize manifests
 	cd config/manager && $(KUSTOMIZE) edit set image controller=$(IMG)
-	$(KUSTOMIZE) build config/manifests | operator-sdk generate bundle -q --overwrite --version $(VERSION) $(BUNDLE_METADATA_OPTS)
-	operator-sdk bundle validate ./bundle
+	$(KUSTOMIZE) build config/manifests | operator-sdk generate bundle --overwrite --version $(VERSION) $(BUNDLE_METADATA_OPTS)
+	#operator-sdk bundle validate ./bundle
+	operator-sdk bundle validate ./bundle --select-optional name=operatorhub  --optional-values=k8s-version=1.17  --select-optional suite=operatorframework --optional-values=k8s-version=1.17
+
 
 .PHONY: bundle-build
 bundle-build: ## Build the bundle image.
-	docker build -f bundle.Dockerfile -t $(BUNDLE_IMG) .
+	docker build --no-cache -f bundle.Dockerfile -t $(BUNDLE_IMG) .
 
 .PHONY: bundle-push
 bundle-push: ## Push the bundle image.

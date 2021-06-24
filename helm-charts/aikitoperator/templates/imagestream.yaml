@@ -9,10 +9,9 @@ spec:
   lookupPolicy:
     local: true
   tags:
-    from:
+  - from:
       kind: DockerImage
-      name: {{ .Values.imagestream.registry.name }}/{{ .Values.imagestream.name }}:{{ .Values.imagestream.version }}
-    importPolicy: {}
+      name: {{ .Values.imagestream.registryname }}/{{ .Values.imagestream.name }}:{{ .Values.imagestream.version }}
     name: {{ .Values.imagestream.version }}
     referencePolicy:
       type: Source

@@ -6,9 +6,8 @@ nameOverride: ""
 fullnameOverride: ""
 
 imagestream:
-  name: s2i-aikit
-  namespace: redhat-ods-applications
-  version: v0.0.1
-  registry:
-    name: quay.io/kamkasravi
+  name: tensorflow-notebook
+  namespace: kam
+  version: v0.0.2
+  registryname: quay.io/kamkasravi
 
