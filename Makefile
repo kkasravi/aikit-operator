@@ -136,6 +136,9 @@ bundle: kustomize ## Generate bundle manifests and metadata, then validate gener
 	#operator-sdk bundle validate ./bundle
 	operator-sdk bundle validate ./bundle --select-optional name=operatorhub  --optional-values=k8s-version=1.17  --select-optional suite=operatorframework --optional-values=k8s-version=1.17
 
+.PHONY: bundle-validate
+bundle-validate::
+	@operator-sdk bundle validate ./bundle --select-optional name=operatorhub  --optional-values=k8s-version=1.17  --select-optional suite=operatorframework --optional-values=k8s-version=1.17
 
 .PHONY: bundle-build
 bundle-build: ## Build the bundle image.

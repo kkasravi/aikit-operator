@@ -4,5 +4,5 @@ resources:
 - manager.yaml
 images:
 - name: controller
-  newName: quay.io/kamkasravi/aikit-operator
+  newName: registry/connect/redhat/com/intel/aikit-operator
   newTag: 2021.2.0

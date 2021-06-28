@@ -1,7 +1,7 @@
 # aikit-operator
 
 ## env vars
-- OC_PROJECT=kam
+- OC_PROJECT=redhat-ods-applications
 - IMAGE_TAG_BASE=registry.connect.redhat.com/intel
 - VERSION=2021.2.0
 
@@ -12,17 +12,17 @@
 
    ```
    I0619 08:42:37.067270   40732 request.go:655] Throttling request took 1.200891329s, request: GET:https://api.openvino5.3q12.p1.openshiftapps.com:6443/apis/route.openshift.io/v1?timeout=32s
-   INFO[0021] Successfully created registry pod: quay-io-kamkasravi-aikit-operator-bundle-v2021-2-0-10
+   INFO[0021] Successfully created registry pod: aikit-operator-bundle-v2021-2-0-10
    INFO[0021] Created CatalogSource: aikit-operator-catalog
    INFO[0021] OperatorGroup "operator-sdk-og" created
    INFO[0021] Created Subscription: aikit-operator-v2021-2-0-10-sub
    INFO[0044] Approved InstallPlan install-bqqn8 for the Subscription: aikit-operator-v2021-2-0-10-sub
-   INFO[0044] Waiting for ClusterServiceVersion "kam/aikit-operator.v2021.2.0-10" to reach 'Succeeded' phase
-   INFO[0044]   Waiting for ClusterServiceVersion "kam/aikit-operator.v2021.2.0-10" to appear
-   INFO[0078]   Found ClusterServiceVersion "kam/aikit-operator.v2021.2.0-10" phase: Pending
-   INFO[0080]   Found ClusterServiceVersion "kam/aikit-operator.v2021.2.0-10" phase: InstallReady
-   INFO[0085]   Found ClusterServiceVersion "kam/aikit-operator.v2021.2.0-10" phase: Installing
-   INFO[0098]   Found ClusterServiceVersion "kam/aikit-operator.v2021.2.0-10" phase: Succeeded
+   INFO[0044] Waiting for ClusterServiceVersion "openshift-operators/aikit-operator.v2021.2.0-10" to reach 'Succeeded' phase
+   INFO[0044]   Waiting for ClusterServiceVersion "openshift-operators/aikit-operator.v2021.2.0-10" to appear
+   INFO[0078]   Found ClusterServiceVersion "openshift-operators/aikit-operator.v2021.2.0-10" phase: Pending
+   INFO[0080]   Found ClusterServiceVersion "openshift-operators/aikit-operator.v2021.2.0-10" phase: InstallReady
+   INFO[0085]   Found ClusterServiceVersion "openshift-operators/aikit-operator.v2021.2.0-10" phase: Installing
+   INFO[0098]   Found ClusterServiceVersion "openshift-operators/aikit-operator.v2021.2.0-10" phase: Succeeded
    INFO[0098] OLM has successfully installed "aikit-operator.v2021.2.0-10"
    ```
 
@@ -59,7 +59,7 @@ apiVersion: operators.coreos.com/v1
 kind: OperatorGroup
 metadata:
   name: intel-operators
-  namespace: kam
+  namespace: openshift-operators
 ```
 1. create a subscription
 ```
@@ -67,11 +67,11 @@ apiVersion: operators.coreos.com/v1alpha1
 kind: Subscription
 metadata:
   name: aikit-operator-subscription
-  namespace: kam
+  namespace: openshift-operators
 spec:
   channel: stable
   name: dikit-operator
   source: intel-operators
-  sourceNamespace: kam
+  sourceNamespace: openshift-operators
   approval: Manual
 ```

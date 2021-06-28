@@ -6,9 +6,9 @@ metadata:
       [
         {
           "apiVersion": "aikit.intel/v1alpha1",
-          "kind": "AIKitOperator",
+          "kind": "AIKitContainer",
           "metadata": {
-            "name": "aikitoperator-create-imagestream",
+            "name": "create-imagestream",
             "namespace": "redhat-ods-applications"
           },
           "spec": {
@@ -16,8 +16,12 @@ metadata:
             "imagestream": {
               "name": "oneapi-aikit",
               "namespace": "redhat-ods-applications",
-              "registryname": "registry.connect.redhat.com/intel",
-              "version": "latest"
+              "registry": {
+                "root": "registry.connect.redhat.com",
+                "repo": "intel",
+                "name": "oneapi-aikit",
+                "version": "latest"
+              },
             },
             "nameOverride": ""
           }
@@ -26,14 +30,14 @@ metadata:
     capabilities: "Basic Install"
     categories: "AI/Machine Learning"
     support: Intel
-  name: aikit-operator.2021.2.0
+  name: aikit-operator.v2021.2.0
   namespace: placeholder
 spec:
   apiservicedefinitions: {}
   customresourcedefinitions:
     owned:
-    - kind: AIKitOperator
-      name: aikitoperators.aikit.intel
+    - kind: AIKitContainer
+      name: aikitcontainers.aikit.intel
       version: v1alpha1
   description: |
     The Intel® oneAPI AI Analytics Toolkit gives data scientists, AI developers, and researchers familiar Python* tools and frameworks to accelerate end-to-end data science and machine learning pipelines on Intel® architectures. The components are built using oneAPI libraries for low-level compute optimizations. This toolkit maximizes performance from preprocessing through machine and deep learning phases and provides interoperability for efficient model development and deployment across single and multinodes.
@@ -66,9 +70,9 @@ spec:
         - apiGroups:
           - aikit.intel
           resources:
-          - aikitoperators
-          - aikitoperators/status
-          - aikitoperators/finalizers
+          - aikitcontainers
+          - aikitcontainers/status
+          - aikitcontainers/finalizers
           verbs:
           - create
           - delete
@@ -119,7 +123,7 @@ spec:
                   valueFrom:
                     fieldRef:
                       fieldPath: metadata.annotations['olm.targetNamespaces']
-                image: quay.io/kamkasravi/aikit-operator:2021.2.0
+                image: registry.connect.redhat.com/intel/aikit-operator:2021.2.0 # {"$openapi":"IMAGE"}
                 name: manager
                 resources:
                   limits:
@@ -190,4 +194,5 @@ spec:
   provider:
     name: Intel
     url: https://software.intel.com/content/www/us/en/develop/tools/oneapi/application-catalog.html#gs.407z40
+#  minKubeVersion: "1.17"
   version: 2021.2.0  # 2021.2.`git rev-parse --short HEAD | sed 's/[^0-9]*//g'`
