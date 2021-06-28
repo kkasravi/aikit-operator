@@ -11,6 +11,6 @@ resources:
     namespaced: true
   domain: intel
   group: aikit
-  kind: AIKitOperator
+  kind: AIKitContainer
   version: v1alpha1
 version: "3"

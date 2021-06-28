@@ -29,14 +29,14 @@ rules:
   - create
 
 ##
-## Rules for aikit.intel/v1alpha1, Kind: AIKitOperator
+## Rules for aikit.intel/v1alpha1, Kind: AIKitContainer
 ##
 - apiGroups:
   - aikit.intel
   resources:
-  - aikitoperators
-  - aikitoperators/status
-  - aikitoperators/finalizers
+  - aikitcontainers
+  - aikitcontainers/status
+  - aikitcontainers/finalizers
   verbs:
   - create
   - delete
