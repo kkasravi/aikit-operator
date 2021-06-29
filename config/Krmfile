@@ -31,7 +31,7 @@ openAPI:
       x-k8s-cli:
         setter:
           name: VERSION
-          value: 2021.2.925
+          value: 2021.2.551
           isSet: true
           required: true
     io.k8s.cli.substitutions.IMAGE:

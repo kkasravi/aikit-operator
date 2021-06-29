@@ -54,6 +54,11 @@ help: ## Display this help.
 
 ##@ Config
 
+cfg-list: kustomize ## Call 'kustomize cfg list-setters ' for config, bundle
+	@$(KUSTOMIZE) cfg list-setters config -R --include-subst || exit 0
+	@$(KUSTOMIZE) cfg list-setters bundle -R --include-subst || exit 0
+	
+
 cfg-set: kustomize ## Call 'kustomize cfg set ' for OC_PROJECT, IMAGE_TAG_BASE and VERSION
 	@$(KUSTOMIZE) cfg set config OC_PROJECT $(OC_PROJECT) -R || exit 0
 	@$(KUSTOMIZE) cfg set config IMAGE_TAG_BASE $(IMAGE_TAG_BASE) -R || exit 0
