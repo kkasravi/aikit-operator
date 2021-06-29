@@ -8,7 +8,7 @@ spec:
   nameOverride: ""
   imagestream:
     name: oneapi-aikit
-    namespace: kam # {"$openapi":"OC_PROJECT"}
+    namespace: redhat-ods-applications # {"$openapi":"OC_PROJECT"}
     registry:
       root: registry.connect.redhat.com
       repo: intel

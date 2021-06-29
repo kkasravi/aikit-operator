@@ -1,11 +1,11 @@
 # aikit-operator
 
-## env vars
+## env var defaults
 - OC_PROJECT=redhat-ods-applications
-- IMAGE_TAG_BASE=registry.connect.redhat.com/intel
-- VERSION=2021.2.0
+- IMAGE_TAG_BASE=registry.connect.redhat.com/intel/aikit-operator
+- VERSION=2021.2.`git rev-parse --short HEAD | sed 's/[^0-9]*//g'`
 
-## using the operator-sdk cli
+## using the operator-sdk cli to install the operator using the cluster's Object Lifecycle Manager (OLM)
 
 1. install <br/>
    `operator-sdk run bundle -n $OC_PROJECT ${IMAGE_TAG_BASE}-bundle:v$VERSION`

@@ -2,4 +2,4 @@
 resources:
   - aikit_v1alpha1_aikitcontainer.yaml
 #+kubebuilder:scaffold:manifestskustomizesamples
-namespace: kam # {"$openapi":"OC_PROJECT"}
+namespace: redhat-ods-applications # {"$openapi":"OC_PROJECT"}

@@ -30,7 +30,7 @@ spec:
             - --leader-election-id=aikit-operator
           env:
             - name: WATCH_NAMESPACE
-              value: kam # {"$openapi":"OC_PROJECT"}
+              value: redhat-ods-applications # {"$openapi":"OC_PROJECT"}
           image: controller:latest
           name: manager
           securityContext:
