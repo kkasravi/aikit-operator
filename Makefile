@@ -1,6 +1,6 @@
 OC_PROJECT ?= redhat-ods-applications
 IMAGE_TAG_BASE ?= registry.connect.redhat.com/intel/aikit-operator
-VERSION ?= 2021.2.`git rev-parse --short HEAD | sed 's/[^0-9]*//g'`
+VERSION ?= 2021.2.0
 OS := $(shell uname -s | tr '[:upper:]' '[:lower:]')
 ARCH := $(shell uname -m | sed 's/x86_64/amd64/')
 
@@ -182,10 +182,11 @@ endif
 # This recipe invokes 'opm' in 'semver' bundle add mode. For more information on add modes, see:
 # https://github.com/operator-framework/community-operators/blob/7f1438c/docs/packaging-operator.md#updating-your-existing-operator
 .PHONY: catalog-build
-catalog-build: opm ## Build a catalog image.
+catalog-build: opm cfg-set ## Build a catalog image.
 	$(OPM) index add --container-tool docker --mode semver --tag $(CATALOG_IMG) --bundles $(BUNDLE_IMGS) $(FROM_INDEX_OPT)
 
 # Push the catalog image.
 .PHONY: catalog-push
 catalog-push: ## Push a catalog image.
 	$(MAKE) docker-push IMG=$(CATALOG_IMG)
+	$(MAKE) defaults
