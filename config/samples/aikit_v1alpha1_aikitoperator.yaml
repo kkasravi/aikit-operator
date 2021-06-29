@@ -1,13 +1,16 @@
 apiVersion: aikit.intel/v1alpha1
-kind: AIKitOperator
+kind: AIKitContainer
 metadata:
-  name: aikitoperator-create-imagestream
+  name: create-imagestream
 spec:
-  # Default values copied from <project_dir>/helm-charts/aikitoperator/values.yaml
+  # Default values copied from <project_dir>/helm-charts/aikitcontainer/values.yaml
   fullnameOverride: ""
   nameOverride: ""
   imagestream:
     name: oneapi-aikit
-    namespace: redhat-ods-applications
-    version: latest
-    registryname: registry.connect.redhat.com/intel
+    namespace: redhat-ods-applications # {"$openapi":"OC_PROJECT"}
+    registry:
+      root: registry.connect.redhat.com
+      repo: intel
+      name: oneapi-aikit
+      version: latest

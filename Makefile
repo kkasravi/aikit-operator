@@ -1,14 +1,8 @@
-#
-# OC_PROJECT
-#
 OC_PROJECT ?= redhat-ods-applications
-
-# VERSION defines the project version for the bundle.
-# Update this value when you upgrade the version of your project.
-# To re-generate a bundle for another specific version without changing the standard setup, you can:
-# - use the VERSION as arg of the bundle target (e.g make bundle VERSION=0.0.2)
-# - use environment variables to overwrite this value (e.g export VERSION=0.0.2)
-VERSION ?= 2021.2.`git rev-parse --short HEAD | sed 's/[^0-9]*//g'`
+IMAGE_TAG_BASE ?= registry.connect.redhat.com/intel/aikit-operator
+VERSION ?= 2021.2.0
+OS := $(shell uname -s | tr '[:upper:]' '[:lower:]')
+ARCH := $(shell uname -m | sed 's/x86_64/amd64/')
 
 # CHANNELS define the bundle channels used in the bundle.
 # Add a new line here if you would like to change its default config. (E.g CHANNELS = "preview,fast,stable")
@@ -29,13 +23,6 @@ BUNDLE_DEFAULT_CHANNEL := --default-channel=$(DEFAULT_CHANNEL)
 endif
 BUNDLE_METADATA_OPTS ?= $(BUNDLE_CHANNELS) $(BUNDLE_DEFAULT_CHANNEL)
 
-# IMAGE_TAG_BASE defines the docker.io namespace and part of the image name for remote images.
-# This variable is used to construct full image tags for bundle and catalog images.
-#
-# For example, running 'make bundle-build bundle-push catalog-build catalog-push' will build and push both
-# intel/aikit-operator-bundle:$VERSION and intel/aikit-operator-catalog:$VERSION.
-IMAGE_TAG_BASE ?= aikit-operator
-
 # BUNDLE_IMG defines the image:tag used for the bundle.
 # You can use it as an arg. (E.g make bundle-build BUNDLE_IMG=<some-registry>/<project-name-bundle>:<tag>)
 BUNDLE_IMG ?= $(IMAGE_TAG_BASE)-bundle:v$(VERSION)
@@ -46,6 +33,7 @@ IMG ?= $(IMAGE_TAG_BASE):$(VERSION)
 version: # show version
 	@echo ${VERSION}
 	# TODO: write this version to version: bundle/manifests/aikit-operator.clusterserviceversion.yaml
+
 all: docker-build
 
 ##@ General
@@ -64,18 +52,37 @@ all: docker-build
 help: ## Display this help.
 	@awk 'BEGIN {FS = ":.*##"; printf "\nUsage:\n  make \033[36m<target>\033[0m\n"} /^[a-zA-Z_0-9-]+:.*?##/ { printf "  \033[36m%-15s\033[0m %s\n", $$1, $$2 } /^##@/ { printf "\n\033[1m%s\033[0m\n", substr($$0, 5) } ' $(MAKEFILE_LIST)
 
+##@ Config
+
+cfg-list: kustomize ## Call 'kustomize cfg list-setters ' for config, bundle
+	@$(KUSTOMIZE) cfg list-setters config -R --include-subst || exit 0
+	@$(KUSTOMIZE) cfg list-setters bundle -R --include-subst || exit 0
+	
+
+cfg-set: kustomize ## Call 'kustomize cfg set ' for OC_PROJECT, IMAGE_TAG_BASE and VERSION
+	@$(KUSTOMIZE) cfg set config OC_PROJECT $(OC_PROJECT) -R || exit 0
+	@$(KUSTOMIZE) cfg set config IMAGE_TAG_BASE $(IMAGE_TAG_BASE) -R || exit 0
+	@$(KUSTOMIZE) cfg set config VERSION $(VERSION) -R || exit 0
+	@$(KUSTOMIZE) cfg set bundle OC_PROJECT $(OC_PROJECT) -R || exit 0
+	@$(KUSTOMIZE) cfg set bundle IMAGE_TAG_BASE $(IMAGE_TAG_BASE) -R || exit 0
+	@$(KUSTOMIZE) cfg set bundle VERSION $(VERSION) -R || exit 0
+
+defaults: kustomize ## Resets OC_PROJECT, IMAGE_TAG_BASE and VERSION to their default values
+	  unset OC_PROJECT IMAGE_TAG_BASE VERSION && $(MAKE) cfg-set
+	
 ##@ Build
+
+docker-build: cfg-set ## Build docker image with the manager.
+	docker build --no-cache -t ${IMG} . || exit 0
+
+docker-push: ## Push docker image with the manager.
+	docker push ${IMG} || exit 0
+	$(MAKE) defaults
+
+##@ Deployment
 
 run: helm-operator ## Run against the configured Kubernetes cluster in ~/.kube/config
 	$(HELM_OPERATOR) run
-
-docker-build: ## Build docker image with the manager.
-	docker build --no-cache -t ${IMG} .
-
-docker-push: ## Push docker image with the manager.
-	docker push ${IMG}
-
-##@ Deployment
 
 install: kustomize ## Install CRDs into the K8s cluster specified in ~/.kube/config.
 	$(KUSTOMIZE) build config/crd | kubectl apply -f -
@@ -83,17 +90,20 @@ install: kustomize ## Install CRDs into the K8s cluster specified in ~/.kube/con
 uninstall: kustomize ## Uninstall CRDs from the K8s cluster specified in ~/.kube/config.
 	$(KUSTOMIZE) build config/crd | kubectl delete -f -
 
-deploy: kustomize ## Deploy controller to the K8s cluster specified in ~/.kube/config.
-	@cd config/manager && $(KUSTOMIZE) edit set image controller=${IMG}
-	@cd config/default && $(KUSTOMIZE) edit set namespace ${OC_PROJECT}
-	@$(KUSTOMIZE) build config/default 
-	@#$(KUSTOMIZE) build config/default | kubectl apply -f - --dry-run=client --validate
+deploy: cfg-set
+	@$(KUSTOMIZE) build config | kubectl apply -f - || exit 0
+	$(MAKE) defaults
+
+operator-sdk-deploy: cfg-set ## Deploy aikit-operator using operator-sdk and OLM
+	operator-sdk run bundle -n $(OC_PROJECT) $(IMAGE_TAG_BASE)-bundle:v$(VERSION)
+	$(MAKE) defaults
 
 undeploy: ## Undeploy controller from the K8s cluster specified in ~/.kube/config.
 	$(KUSTOMIZE) build config/default | kubectl delete -f -
 
-OS := $(shell uname -s | tr '[:upper:]' '[:lower:]')
-ARCH := $(shell uname -m | sed 's/x86_64/amd64/')
+operator-sdk-undeploy: cfg-set ## Undeploy operator deployed by operator-sdk from the K8s cluster specified in ~/.kube/config.
+	operator-sdk cleanup aikit-operator
+	$(MAKE) defaults
 
 .PHONY: kustomize
 KUSTOMIZE = $(shell pwd)/bin/kustomize
@@ -103,7 +113,7 @@ ifeq (,$(shell which kustomize 2>/dev/null))
 	@{ \
 	set -e ;\
 	mkdir -p $(dir $(KUSTOMIZE)) ;\
-	curl -sSLo - https://github.com/kubernetes-sigs/kustomize/releases/download/kustomize/v3.5.4/kustomize_v3.5.4_$(OS)_$(ARCH).tar.gz | \
+	curl -sSLo - https://github.com/kubernetes-sigs/kustomize/releases/download/kustomize/v4.1.3/kustomize_v4.1.3_$(OS)_$(ARCH).tar.gz | \
 	tar xzf - -C bin/ ;\
 	}
 else
@@ -127,23 +137,18 @@ HELM_OPERATOR = $(shell which helm-operator)
 endif
 endif
 
-.PHONY: bundle
-bundle: kustomize ## Generate bundle manifests and metadata, then validate generated files.
-	@echo 'disabled' && exit 1
-	operator-sdk generate kustomize manifests
-	cd config/manager && $(KUSTOMIZE) edit set image controller=$(IMG)
-	$(KUSTOMIZE) build config/manifests | operator-sdk generate bundle --overwrite --version $(VERSION) $(BUNDLE_METADATA_OPTS)
-	#operator-sdk bundle validate ./bundle
-	operator-sdk bundle validate ./bundle --select-optional name=operatorhub  --optional-values=k8s-version=1.17  --select-optional suite=operatorframework --optional-values=k8s-version=1.17
-
+.PHONY: bundle-validate
+bundle-validate::
+	@operator-sdk bundle validate ./bundle --select-optional name=operatorhub  --optional-values=k8s-version=1.17  --select-optional suite=operatorframework --optional-values=k8s-version=1.17
 
 .PHONY: bundle-build
-bundle-build: ## Build the bundle image.
+bundle-build: cfg-set ## Build the bundle image.
 	docker build --no-cache -f bundle.Dockerfile -t $(BUNDLE_IMG) .
 
 .PHONY: bundle-push
 bundle-push: ## Push the bundle image.
 	$(MAKE) docker-push IMG=$(BUNDLE_IMG)
+	$(MAKE) defaults
 
 .PHONY: opm
 OPM = ./bin/opm
@@ -166,7 +171,7 @@ endif
 BUNDLE_IMGS ?= $(BUNDLE_IMG)
 
 # The image tag given to the resulting catalog image (e.g. make catalog-build CATALOG_IMG=example.com/operator-catalog:v0.2.0).
-CATALOG_IMG ?= $(IMAGE_TAG_BASE)-catalog:v$(VERSION)
+CATALOG_IMG ?= $(IMAGE_TAG_BASE)-catalog:$(VERSION)
 
 # Set CATALOG_BASE_IMG to an existing catalog image tag to add $BUNDLE_IMGS to that image.
 ifneq ($(origin CATALOG_BASE_IMG), undefined)
@@ -177,10 +182,11 @@ endif
 # This recipe invokes 'opm' in 'semver' bundle add mode. For more information on add modes, see:
 # https://github.com/operator-framework/community-operators/blob/7f1438c/docs/packaging-operator.md#updating-your-existing-operator
 .PHONY: catalog-build
-catalog-build: opm ## Build a catalog image.
+catalog-build: opm cfg-set ## Build a catalog image.
 	$(OPM) index add --container-tool docker --mode semver --tag $(CATALOG_IMG) --bundles $(BUNDLE_IMGS) $(FROM_INDEX_OPT)
 
 # Push the catalog image.
 .PHONY: catalog-push
 catalog-push: ## Push a catalog image.
 	$(MAKE) docker-push IMG=$(CATALOG_IMG)
+	$(MAKE) defaults

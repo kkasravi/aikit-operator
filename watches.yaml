@@ -1,6 +1,6 @@
 # Use the 'create api' subcommand to add watches to this file.
 - group: aikit.intel
   version: v1alpha1
-  kind: AIKitOperator
-  chart: helm-charts/aikitoperator
+  kind: AIKitContainer
+  chart: helm-charts/aikitcontainer
 #+kubebuilder:scaffold:watch
