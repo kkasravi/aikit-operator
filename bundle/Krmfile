@@ -48,7 +48,7 @@ openAPI:
       x-k8s-cli:
         substitution:
           name: CSV_NAME
-          pattern: ${IMAGE_NAME}.${VERSION}
+          pattern: ${IMAGE_NAME}.v${VERSION}
           values:
             - marker: ${IMAGE_NAME}
               ref: '#/definitions/io.k8s.cli.setters.IMAGE_NAME'

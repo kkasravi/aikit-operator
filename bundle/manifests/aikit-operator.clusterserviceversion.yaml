@@ -30,7 +30,7 @@ metadata:
     capabilities: "Basic Install"
     categories: "AI/Machine Learning"
     support: Intel
-  name: aikit-operator.2021.2.0 # {"$openapi":"CSV_NAME"}
+  name: aikit-operator.v2021.2.0 # {"$openapi":"CSV_NAME"}
   namespace: placeholder
 spec:
   apiservicedefinitions: {}
